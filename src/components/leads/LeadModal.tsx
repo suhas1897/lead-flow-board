@@ -10,6 +10,7 @@ import { useCreateLead, useUpdateLead, useDeleteLead, type Lead, type Stage, typ
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { Loader2, Trash2 } from 'lucide-react';
+import SocialLinks from './SocialLinks';
 
 interface Props {
   lead?: Lead;
@@ -148,6 +149,8 @@ const LeadModal = ({ lead, stages, profiles, onClose }: Props) => {
             <Label>Notes</Label>
             <Textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} rows={3} />
           </div>
+
+          {isEdit && <SocialLinks notes={lead.notes} phone={lead.phone} />}
 
           <div className="flex items-center justify-between pt-2">
             {isEdit && (isAdmin || isManager) && (
