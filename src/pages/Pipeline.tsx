@@ -5,9 +5,10 @@ import AppSidebar from '@/components/layout/AppSidebar';
 import KanbanBoard from '@/components/kanban/KanbanBoard';
 import DashboardView from '@/components/dashboard/DashboardView';
 import LeadModal from '@/components/leads/LeadModal';
+import ExcelUploadModal from '@/components/leads/ExcelUploadModal';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Plus, Search, LayoutDashboard, Columns3, Loader2 } from 'lucide-react';
+import { Plus, Search, LayoutDashboard, Columns3, Loader2, Upload } from 'lucide-react';
 
 type View = 'board' | 'dashboard';
 
@@ -19,6 +20,7 @@ const Pipeline = () => {
   const [view, setView] = useState<View>('board');
   const [search, setSearch] = useState('');
   const [showAddLead, setShowAddLead] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
 
   const filteredLeads = useMemo(() => {
     if (!search.trim()) return leads;
@@ -76,6 +78,9 @@ const Pipeline = () => {
                 className="pl-9 w-64"
               />
             </div>
+            <Button onClick={() => setShowUpload(true)} size="sm" variant="outline">
+              <Upload className="w-4 h-4 mr-1" /> Import
+            </Button>
             <Button onClick={() => setShowAddLead(true)} size="sm">
               <Plus className="w-4 h-4 mr-1" /> Add Lead
             </Button>
@@ -97,6 +102,13 @@ const Pipeline = () => {
           stages={stages}
           profiles={profiles}
           onClose={() => setShowAddLead(false)}
+        />
+      )}
+
+      {showUpload && (
+        <ExcelUploadModal
+          stages={stages}
+          onClose={() => setShowUpload(false)}
         />
       )}
     </div>
